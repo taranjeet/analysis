@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  
+    <title>Stopwords</title>
+
+    <!--Import materialize.css-->
+      <link type="text/css" rel="stylesheet" href="/static/materialize/css/materialize.min.css"  media="screen,projection"/>
+
+      <!--Let browser know website is optimized for mobile-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <script type="text/javascript">
+window.onload = function () {
+  var chart = new CanvasJS.Chart("chartContainer",
+  {
+    title:{
+      text: "My Skill Set"
+    },
+                animationEnabled: true,
+    legend:{
+      verticalAlign: "center",
+      horizontalAlign: "left",
+      fontSize: 20,
+      fontFamily: "Helvetica"        
+    },
+    theme: "theme3",
+    data: [
+    {        
+      type: "pie",       
+      indexLabelFontFamily: "Garamond",       
+      indexLabelFontSize: 20,
+      indexLabel: "{label} {y}%",
+      startAngle:-20,      
+      showInLegend: true,
+      toolTipContent:"{legendText} {y}%",
+      dataPoints: [
+      {%for i,j in subs.items %}
+        {  y:{{j}}, legendText:"{{ i }}", label: "{{ i }}" },
+        
+  {% endfor %}
+      ]
+    }
+    ]
+  });
+  chart.render();
+  
+}
+</script>
+<script type="text/javascript" src="/static/js/canvasjs.min.js"></script> 
+
+  </head>
+
+  <body>
+
+
+<form action='/analysis/' method='POST'>
+  {% csrf_token %}
+  <input type='text' name='user' placeholder='user'>
+  <input type='text' name='problem' placeholder='problem'>
+  <input type='submit' value='submit'>
+</form>
+for checking user=Sourabh Sauda and problem=TEST
+  <div id="chartContainer" style="height: 300px; width: 100%;margin-top:5%"></div>
+  </body>
+</html>
