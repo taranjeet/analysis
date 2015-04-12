@@ -61,23 +61,23 @@ def updateProblems(request):
 		problemCode = x.xpath('//a[@title="Submit a solution to this problem."]/text()')
 		problemName = x.xpath('//div[@class="problemname"]/a/b/text()')
 		# print problemName 
-		for j in range (0,len(problemCode)):
-			if i=="easy":
-				Easy.objects.create(name=problemName[j],code=problemCode[j]).save()
-				print problemName[j]," : ",problemCode[j]
-			elif i=="medium":
-				Medium.objects.create(name=problemName[j],code=problemCode[j]).save()
-				print problemName[j]," : ",problemCode[j]
-			elif i=="hard":
-				Hard.objects.create(name=problemName[j],code=problemCode[j]).save()
-				print problemName[j]," : ",problemCode[j]
-			elif i=="challenge":
-				Challenge.objects.create(name=problemName[j],code=problemCode[j]).save()
-				print problemName[j]," : ",problemCode[j]
-			elif i=="extcontest":
-				Peer.objects.create(name=problemName[j],code=problemCode[j]).save()
-				print problemName[j]," : ",problemCode[j]
-			elif i=="school":
-				School.objects.create(name=problemName[j],code=problemCode[j]).save()
-				print problemName[j]," : ",problemCode[j]
+		# for j in range (0,len(problemCode)):
+		# 	if i=="easy":
+		# 		Easy.objects.create(name=problemName[j],code=problemCode[j]).save()
+		# 		print problemName[j]," : ",problemCode[j]
+		# 	elif i=="medium":
+		# 		Medium.objects.create(name=problemName[j],code=problemCode[j]).save()
+		# 		print problemName[j]," : ",problemCode[j]
+		# 	elif i=="hard":
+		# 		Hard.objects.create(name=problemName[j],code=problemCode[j]).save()
+		# 		print problemName[j]," : ",problemCode[j]
+		# 	elif i=="challenge":
+		# 		Challenge.objects.create(name=problemName[j],code=problemCode[j]).save()
+		# 		print problemName[j]," : ",problemCode[j]
+		# 	elif i=="extcontest":
+		# 		Peer.objects.create(name=problemName[j],code=problemCode[j]).save()
+		# 		print problemName[j]," : ",problemCode[j]
+		# 	elif i=="school":
+		# 		School.objects.create(name=problemName[j],code=problemCode[j]).save()
+		# 		print problemName[j]," : ",problemCode[j]
 	return render_to_response("user.html",{"p":problemName},context_instance=RequestContext(request))
