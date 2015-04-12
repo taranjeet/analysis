@@ -27,6 +27,9 @@
 					<img src="{{ profile_pic }}">
 				</div>
 				<div class="col s12 m6 l8">
+				{% for i in p %}
+				<p> {{ forloop.counter }} : {{ i }}</p>
+				{% endfor %}
 					<p>Name: </p>
 					<h3>Ranking:</h3>        	
 					<p>Long: </p>
