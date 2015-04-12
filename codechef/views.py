@@ -34,11 +34,21 @@ def analysis(request):
 		CTE=len(x.xpath("//span[@title='compilation error']"))
 		#arr=['WA','RTE','CTE','TLE','AC']
 		submission=WA+RTE+AC+TLE+CTE
-		d['CTE']=100.0*CTE/submission
-		d['AC']=100.0*AC/submission
-		d['RTE']=100.0*RTE/submission
-		d['TLE']=100.0*TLE/submission
-		d['WA']=100.0*WA/submission
+		d['CTE']=(CTE,100.0*CTE/submission)
+		d['AC']=(AC,100.0*AC/submission)
+		d['RTE']=(RTE,100.0*RTE/submission)
+		d['TLE']=(TLE,100.0*TLE/submission)
+		d['WA']=(WA,100.0*WA/submission)
 		#print d['CTE']
+		if AC>0:
+			#it means the problem is solved.
+			#get the language
+			z=x.xpath('./tr[/span/@title="accepted"]')
+			submission_id=x.xpath('//tr/span[contains(@title,"accepted")]/td[1]/text()')
+			last_time=x.xpath('//tr[@class="kol"]/td[2]/text()')
+			run_time=x.xpath('//tr[@class="kol"]/td[5]/text()')
+			mem=x.xpath('//tr[@class="kol"]/td[6]/text()')
+			lang=x.xpath('//tr[@class="kol"]/td[7]/text()')
+			print submission_id,lang,run_time,mem,last_time,z
 		print WA,RTE,AC,TLE,CTE
 	return render_to_response('anal.html',{'subs':d},context_instance=RequestContext(request))

@@ -29,13 +29,13 @@ window.onload = function () {
       type: "pie",       
       indexLabelFontFamily: "Garamond",       
       indexLabelFontSize: 20,
-      indexLabel: "{label} {y}%",
+      indexLabel: "{y} {label}",
       startAngle:-20,      
       showInLegend: true,
-      toolTipContent:"{legendText} {y}%",
+      toolTipContent:"{legendText} {y}",
       dataPoints: [
       {%for i,j in subs.items %}
-        {  y:{{j}}, legendText:"{{ i }}", label: "{{ i }}" },
+        {  y:{{j.0}}, legendText:"{{ i }}", label: "{{ i }}" },
         
   {% endfor %}
       ]
