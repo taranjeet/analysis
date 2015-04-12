@@ -1,0 +1,85 @@
+nav{
+	background-color: #424242;
+}
+nav .brand-logo{
+	font-weight: 300;
+}
+img#deshraj{
+	vertical-align: middle;
+	margin-right: 10px;
+	height: 45px;
+}
+.side-nav.fixed.hide-on-med-and-down{
+	margin-top: 64px;
+	background-color: #33383C;
+}
+ul.side-nav li{
+	padding: 0;
+}
+ul.side-nav.fixed a{
+	color:#eeeeee;
+	vertical-align: middle;
+}
+ul.side-nav li.active{
+	background-color: #039be5;
+}
+ul.side-nav.fixed i{
+	/*color:#eeeeee;*/
+	vertical-align: middle;
+}
+ul.side-nav li.hover{
+	background-color: #039be5;
+}
+div.divider{
+	background-color: #494848;
+}
+div.row{
+	margin-left: 18%;
+	background-color: #202529;
+	margin-bottom: 0;
+}
+.btn{
+	background-color: transparent;
+	margin-right: 20px;
+	border-style: solid;
+    border-width: 1px;
+}
+#row1 .btn.active{
+	background-color: #13C9B3;
+	color: black;
+	margin-left: 15px;
+}
+.btn:hover{
+	background-color: #616161;
+}
+body{
+	background-color: #1F2428;
+}
+#row1{
+	margin-top: 15px;
+	margin-bottom: 0px;	
+}
+#menuicon{
+	margin-left: 15px;
+}
+.menu2 li:hover{
+	background-color: #000;
+}
+#rowdivider{
+	background-color: #494848;
+	color: #494848;
+}
+#c3_1{
+	margin:35px 25px 35px 25px;
+	background-color: #33383C;
+	opacity:0.8;
+	border: 1px;
+	border-radius: 2px solid;
+}
+.card{
+	background-color: inherit;
+	opacity: 0.9;
+}
+#graph{
+	margin-top: 35px;
+}

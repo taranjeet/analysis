@@ -3,6 +3,7 @@ from django.core.context_processors import csrf
 from lxml import etree
 import urllib
 from django.template import RequestContext
+import scrapy
 # Create your views here.
 
 def index(request):
@@ -11,11 +12,7 @@ def index(request):
 def analysis(request):
 	c = {}
 	c.update(csrf(request))
-	WA=None
-	RTE=None
-	TLE=None
-	CTE=None
-	AC=None
+	WA=RTE=TLE=CTE=AC=None
 	d={}
 	if request.POST:
 		print 'post request for analysis'
@@ -52,3 +49,28 @@ def analysis(request):
 			print submission_id,lang,run_time,mem,last_time,z
 		print WA,RTE,AC,TLE,CTE
 	return render_to_response('anal.html',{'subs':d},context_instance=RequestContext(request))
+
+def user(request):
+	WA=RTE=TLE=CTE=AC=None
+	details={}
+	if request.POST:
+		print 'post request for analysis'
+		user=request.POST['user']
+		url='http://www.codechef.com/users/%s' % (user)
+		print url
+		page=urllib.urlopen(url).read()
+		x=etree.HTML(page)
+		sols=x.xpath('//tr[@class="kol"]')
+		WA=len(x.xpath("//span[@title='wrong answer']"))
+		RTE=len(x.xpath("//span[@title='runtime error(NZEC)']"))
+		AC=len(x.xpath("//span[@title='accepted']"))
+		TLE=len(x.xpath("//span[@title='time limit exceeded']"))
+		CTE=len(x.xpath("//span[@title='compilation error']"))
+		#arr=['WA','RTE','CTE','TLE','AC']
+		submission=WA+RTE+AC+TLE+CTE
+		d['CTE']=(CTE,100.0*CTE/submission)
+		d['AC']=(AC,100.0*AC/submission)
+		d['RTE']=(RTE,100.0*RTE/submission)
+		d['TLE']=(TLE,100.0*TLE/submission)
+		d['WA']=(WA,100.0*WA/submission)
+	return render_to_response("user.html",context_instance=RequestContext(request))
