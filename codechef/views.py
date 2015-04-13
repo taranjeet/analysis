@@ -6,6 +6,7 @@ from codechef.models import *
 from lxml import etree
 import urllib
 import scrapy
+import json
 # Create your views here.
 
 def index(request):
@@ -81,19 +82,33 @@ def userDetails(request):
 	if request.POST:
 		username = request.POST['username']
 		url = 'http://codechef.com/users/'+str(username)
-		easy= medium=hard=0
+		u = {"easy":0,"medium":0,"hard":0,"challenge":0,"school":0,"peer":0,"other":0}
+		# easy= medium=hard=peer=school=challenge=0
 		page=urllib.urlopen(url).read()
 		x=etree.HTML(page)
+		profile_pic=x.xpath("//div[@class='user-thumb-pic']/img/@src")
+		profile_pic = "http://codechef.com"+str(profile_pic[0])
 		problems=x.xpath("//tr/td/p/span/a/text()")
 		for problem in problems:
 			if Easy.objects.filter(code=str(problem)).count()==1:
-				easy+=1
+				u['easy']+=1
 			elif Medium.objects.filter(code=problem).count()==1:
-				medium+=1
+				u['medium']+=1
 			elif Hard.objects.filter(code = problem).count()==1:
-				hard+=1
-		return HttpResponse("EASY "+str(easy)+"\n Medium  "+str(medium)+"\n Hard  "+str(hard))
+				u['hard']+=1
+			elif Peer.objects.filter(code = problem).count()==1:
+				u['peer']+=1
+			elif School.objects.filter(code = problem).count()==1:
+				u['school']+=1
+			elif Challenge.objects.filter(code = problem).count()==1:
+				u['challenge']+=1
+		u['other'] = len(problems)-u['easy']-u['medium']-u['hard']-u['challenge']-u['peer']-u['school']
+		u = json.dumps(u, ensure_ascii=False)
+		print u
+		return render_to_response("userDetails.html",{'u':u,'profile_pic':profile_pic},context_instance= RequestContext(request))
+		# return HttpResponse("EASY "+str(easy)+"\n Medium  "+str(medium)+"\n Hard  "+str(hard))
 	return render_to_response("userDetails.html",context_instance = RequestContext(request))
+	
 def userList(request):
 	for i in range(1,2219):
 		url='http://discuss.codechef.com/users/?sort=name&page='+str(i)
