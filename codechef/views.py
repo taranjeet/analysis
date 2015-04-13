@@ -1,8 +1,10 @@
 from django.shortcuts import render_to_response
 from django.core.context_processors import csrf
+from django.http import *
+from django.template import RequestContext
+from codechef.models import *
 from lxml import etree
 import urllib
-from django.template import RequestContext
 import scrapy
 # Create your views here.
 
@@ -75,6 +77,23 @@ def user(request):
 		d['WA']=(WA,100.0*WA/submission)
 	return render_to_response("user.html",context_instance=RequestContext(request))
 
+def userDetails(request):
+	if request.POST:
+		username = request.POST['username']
+		url = 'http://codechef.com/users/'+str(username)
+		easy= medium=hard=0
+		page=urllib.urlopen(url).read()
+		x=etree.HTML(page)
+		problems=x.xpath("//tr/td/p/span/a/text()")
+		for problem in problems:
+			if Easy.objects.filter(code=str(problem)).count()==1:
+				easy+=1
+			elif Medium.objects.filter(code=problem).count()==1:
+				medium+=1
+			elif Hard.objects.filter(code = problem).count()==1:
+				hard+=1
+		return HttpResponse("EASY "+str(easy)+"\n Medium  "+str(medium)+"\n Hard  "+str(hard))
+	return render_to_response("userDetails.html",context_instance = RequestContext(request))
 def userList(request):
 	for i in range(1,2219):
 		url='http://discuss.codechef.com/users/?sort=name&page='+str(i)

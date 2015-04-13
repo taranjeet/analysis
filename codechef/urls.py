@@ -6,5 +6,6 @@ urlpatterns = patterns('',
     # url(r'^$', 'analysis.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
     url(r'^analysis/$','codechef.views.analysis',name='analysis'),
-    url(r'^details/','codechef.views.updateProblems',name='updateProblems'),
+    # url(r'^details/','codechef.views.updateProblems',name='updateProblems'),
+    url(r'^check','codechef.views.userDetails',name='userDetails'),
 )
