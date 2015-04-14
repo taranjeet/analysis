@@ -135,12 +135,14 @@ def addFriends(request):
 
 def fetchUserDetails(friend):
 		url = 'http://codechef.com/users/'+str(friend)
-		u = {"name":str(friend),"easy":0,"medium":0,"hard":0,"challenge":0,"school":0,"peer":0,"other":0}
+		u = {"username":str(friend),"name":"","profile_pic":"","easy":0,"medium":0,"hard":0,"challenge":0,"school":0,"peer":0,"other":0}
 		# easy= medium=hard=peer=school=challenge=0
 		page=urllib.urlopen(url).read()
 		x=etree.HTML(page)
+		u['name'] = (x.xpath("//div[@class='user-name-box']/text()"))[0]
+		print u["name"]
 		profile_pic=x.xpath("//div[@class='user-thumb-pic']/img/@src")
-		profile_pic = "http://codechef.com"+str(profile_pic[0])
+		u['profile_pic'] = "http://codechef.com"+str(profile_pic[0])
 		problems=x.xpath("//tr/td/p/span/a/text()")
 		for problem in problems:
 			if Easy.objects.filter(code=str(problem)).count()==1:
