@@ -133,30 +133,43 @@ def addFriends(request):
 		return render_to_response("friends.html",{"data":data},context_instance = RequestContext(request))
 	return render_to_response("friends.html",context_instance = RequestContext(request))
 
+def getChapterList(request):
+	url = 'http://www.codechef.com/campus_chapter/list'
+	u = {"chapterName":'',"code":"","chapterUrl":""}
+	page=urllib.urlopen(url).read()
+	x=etree.HTML(page)
+	chapterName = x.xpath("//div[@class='cc_listing-textbox-description']/@title")
+	# print u["chapterName"]
+	print chapterName
+	code=x.xpath("//span[@class='chapter-name']/text()")
+	print code
+	# u['code'] = "http://codechef.com"+str(profile_pic[0])
+	# chapterUrl = "http://www.codechef.com/campus_chapter/"+ str()
+	return HttpResponse(chapterName + code)
 def fetchUserDetails(friend):
-		url = 'http://codechef.com/users/'+str(friend)
-		u = {"username":str(friend),"name":"","profile_pic":"","easy":0,"medium":0,"hard":0,"challenge":0,"school":0,"peer":0,"other":0}
-		# easy= medium=hard=peer=school=challenge=0
-		page=urllib.urlopen(url).read()
-		x=etree.HTML(page)
-		u['name'] = (x.xpath("//div[@class='user-name-box']/text()"))[0]
-		print u["name"]
-		profile_pic=x.xpath("//div[@class='user-thumb-pic']/img/@src")
-		u['profile_pic'] = "http://codechef.com"+str(profile_pic[0])
-		problems=x.xpath("//tr/td/p/span/a/text()")
-		for problem in problems:
-			if Easy.objects.filter(code=str(problem)).count()==1:
-				u['easy']+=1
-			elif Medium.objects.filter(code=problem).count()==1:
-				u['medium']+=1
-			elif Hard.objects.filter(code = problem).count()==1:
-				u['hard']+=1
-			elif Peer.objects.filter(code = problem).count()==1:
-				u['peer']+=1
-			elif School.objects.filter(code = problem).count()==1:
-				u['school']+=1
-			elif Challenge.objects.filter(code = problem).count()==1:
-				u['challenge']+=1
-		u['other'] = len(problems)-u['easy']-u['medium']-u['hard']-u['challenge']-u['peer']-u['school']
-		u = json.dumps(u, ensure_ascii=False)
-		return u
+	url = 'http://codechef.com/users/'+str(friend)
+	u = {"username":str(friend),"name":"","profile_pic":"","easy":0,"medium":0,"hard":0,"challenge":0,"school":0,"peer":0,"other":0}
+	# easy= medium=hard=peer=school=challenge=0
+	page=urllib.urlopen(url).read()
+	x=etree.HTML(page)
+	u['name'] = (x.xpath("//div[@class='user-name-box']/text()"))[0]
+	print u["name"]
+	profile_pic=x.xpath("//div[@class='user-thumb-pic']/img/@src")
+	u['profile_pic'] = "http://codechef.com"+str(profile_pic[0])
+	problems=x.xpath("//tr/td/p/span/a/text()")
+	for problem in problems:
+		if Easy.objects.filter(code=str(problem)).count()==1:
+			u['easy']+=1
+		elif Medium.objects.filter(code=problem).count()==1:
+			u['medium']+=1
+		elif Hard.objects.filter(code = problem).count()==1:
+			u['hard']+=1
+		elif Peer.objects.filter(code = problem).count()==1:
+			u['peer']+=1
+		elif School.objects.filter(code = problem).count()==1:
+			u['school']+=1
+		elif Challenge.objects.filter(code = problem).count()==1:
+			u['challenge']+=1
+	u['other'] = len(problems)-u['easy']-u['medium']-u['hard']-u['challenge']-u['peer']-u['school']
+	u = json.dumps(u, ensure_ascii=False)
+	return u
