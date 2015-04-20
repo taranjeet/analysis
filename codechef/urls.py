@@ -8,6 +8,7 @@ urlpatterns = patterns('',
     url(r'^analysis/$','codechef.views.analysis',name='analysis'),
     # url(r'^details/','codechef.views.updateProblems',name='updateProblems'),
     url(r'^check','codechef.views.userDetails',name='userDetails'),
+    url(r'^fetchusers','codechef.views.userList',name='userList'),
     url(r'^friends','codechef.views.addFriends',name='addFriends'),
     url(r'^getChapterList','codechef.views.getChapterList',name='getChapterList'),
 )

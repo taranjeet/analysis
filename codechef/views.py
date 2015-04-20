@@ -127,8 +127,11 @@ def userList(request):
 				base_url='http://www.codechef.com/users/%s'%(user)
 				page1=urllib.urlopen(base_url).read()
 				x1=etree.HTML(page1)
-				collegename=x1.xpath('//td/text()')[13].strip()
-				name=x.xpath('//div[@class="user-name-box"]/text()')
+				collegename=x1.xpath('//td/text()')[13].strip()			#not working
+				#try this
+				#   x1.xpath('//tr/td[../td/b/text()="Institution:"]')
+
+				name=x1.xpath('//div[@class="user-name-box"]/text()')
 				name=''.join(name)
 				print user,name,collegename
 				f.write(str(user.encode('utf-8'))+"\n")
