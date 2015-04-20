@@ -114,7 +114,7 @@ def userDetails(request):
 	return render_to_response("userDetails.html",context_instance = RequestContext(request))
 	
 def userList(request):
-	for i in range(1,2219):
+	for i in range(1,2234):
 		url='http://discuss.codechef.com/users/?sort=name&page='+str(i)
 		print url
 		page=urllib.urlopen(url).read()
@@ -123,7 +123,8 @@ def userList(request):
 		# print usernames
 		with open("usernames.txt","a") as f:
 			for user in usernames:
-				print user
+				#print user
+				user=user.strip()
 				base_url='http://www.codechef.com/users/%s'%(user)
 				page1=urllib.urlopen(base_url).read()
 				x1=etree.HTML(page1)
@@ -136,6 +137,8 @@ def userList(request):
 				name=x1.xpath('//div[@class="user-name-box"]/text()')
 				name=''.join(name)
 				print user,name,collegename
+				if collegename:
+					User(name=name,username=user,collegename=collegename).save()
 				f.write(str(user.encode('utf-8'))+"\n")
 
 def addFriends(request):
