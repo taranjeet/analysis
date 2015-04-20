@@ -24,3 +24,8 @@ class Peer(models.Model):
 class School(models.Model):
     code = models.CharField(max_length=10,primary_key=True)
     name = models.CharField(max_length=500)
+
+class College(models.Model):
+    code=models.CharField(max_length=200)
+    name=models.CharField(max_length=500)
+    date=models.CharField(max_length=50)

@@ -146,6 +146,8 @@ def getChapterList(request):
 	x=etree.HTML(page)
 	chapterCode = x.xpath("//span[@class='chapter-name']/text()")
 	chapterName = x.xpath("//div[@class='cc_listing-textbox-description']/@title")
+	chapterStartDate=x.xpath("//div[@class='cc_listing-status']/text()")
+
 	for i in range(0,len(chapterName)):
 		print chapterName[i]+"   "+chapterCode[i]
 	driver.close()
