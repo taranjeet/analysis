@@ -5,4 +5,5 @@ admin.site.register(Easy)
 admin.site.register(Medium)
 admin.site.register(Hard)
 admin.site.register(Peer)
+admin.site.register(College)
 

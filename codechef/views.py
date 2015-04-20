@@ -149,7 +149,8 @@ def getChapterList(request):
 	chapterStartDate=x.xpath("//div[@class='cc_listing-status']/text()")
 
 	for i in range(0,len(chapterName)):
-		print chapterName[i]+"   "+chapterCode[i]
+		College(code=chapterCode[i],name=chapterName[i],date=chapterStartDate[i]).save()
+		print chapterName[i]+"   "+chapterCode[i]+' '+chapterStartDate[i]
 	driver.close()
 	vdisplay.stop()
 	return HttpResponse(chapterName)
