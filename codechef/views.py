@@ -2,6 +2,10 @@ from django.shortcuts import render_to_response
 from django.core.context_processors import csrf
 from django.http import *
 from django.template import RequestContext
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from xvfbwrapper import Xvfb
 from codechef.models import *
 from lxml import etree
 import urllib
@@ -134,18 +138,20 @@ def addFriends(request):
 	return render_to_response("friends.html",context_instance = RequestContext(request))
 
 def getChapterList(request):
-	url = 'http://www.codechef.com/campus_chapter/list'
-	u = {"chapterName":'',"code":"","chapterUrl":""}
-	page=urllib.urlopen(url).read()
+	vdisplay = Xvfb()
+	vdisplay.start()
+	driver = webdriver.Firefox()
+	driver.get("http://www.codechef.com/campus_chapter/list")
+	page = driver.page_source
 	x=etree.HTML(page)
+	chapterCode = x.xpath("//span[@class='chapter-name']/text()")
 	chapterName = x.xpath("//div[@class='cc_listing-textbox-description']/@title")
-	# print u["chapterName"]
-	print chapterName
-	code=x.xpath("//span[@class='chapter-name']/text()")
-	print code
-	# u['code'] = "http://codechef.com"+str(profile_pic[0])
-	# chapterUrl = "http://www.codechef.com/campus_chapter/"+ str()
-	return HttpResponse(chapterName + code)
+	for i in range(0,len(chapterName)):
+		print chapterName[i]+"   "+chapterCode[i]
+	driver.close()
+	vdisplay.stop()
+	return HttpResponse(chapterName)
+
 def fetchUserDetails(friend):
 	url = 'http://codechef.com/users/'+str(friend)
 	u = {"username":str(friend),"name":"","profile_pic":"","easy":0,"medium":0,"hard":0,"challenge":0,"school":0,"peer":0,"other":0}
