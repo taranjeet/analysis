@@ -126,7 +126,7 @@ def userList(request):
 				#print user
 				user=user.strip()
 				base_url='http://www.codechef.com/users/%s'%(user)
-				page1=urllib.urlopen(base_url).read()
+				page1=urllib.urlopen(base_url.encode('utf-8')).read()
 				x1=etree.HTML(page1)
 				#collegename=x1.xpath('//td/text()')[13].strip()			#not working
 				#try this
