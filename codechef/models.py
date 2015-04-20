@@ -29,3 +29,8 @@ class College(models.Model):
     code=models.CharField(max_length=200)
     name=models.CharField(max_length=500)
     date=models.CharField(max_length=50)
+
+class User(models.Model):
+    name=models.CharField(max_length=500)
+    username=models.CharField(max_length=200)
+    collegename=models.CharField(max_length=500)

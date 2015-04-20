@@ -124,6 +124,13 @@ def userList(request):
 		with open("usernames.txt","a") as f:
 			for user in usernames:
 				print user
+				base_url='http://www.codechef.com/users/%s'%(user)
+				page1=urllib.urlopen(base_url).read()
+				x1=etree.HTML(page1)
+				collegename=x1.xpath('//td/text()')[13].strip()
+				name=x.xpath('//div[@class="user-name-box"]/text()')
+				name=''.join(name)
+				print user,name,collegename
 				f.write(str(user.encode('utf-8'))+"\n")
 
 def addFriends(request):
