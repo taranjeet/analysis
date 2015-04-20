@@ -121,7 +121,7 @@ def userList(request):
 		x=etree.HTML(page)
 		usernames=x.xpath("//div[@class='user']/ul/li/a/text()")
 		# print usernames
-		with open("usernames.txt","a") as f:
+		with open("usernames1.txt","a") as f:
 			for user in usernames:
 				#print user
 				user=user.strip()
