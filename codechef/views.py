@@ -313,7 +313,7 @@ def chapter(request):
 	now=datetime.datetime.now()
 	month=now.month
 	year=now.year
-	find_first_friday(1,11,2014)
+	first_friday=find_first_friday(1,month,year)
 
 	
 	return HttpResponse('no of users of this college are %s'%(len(users)))
