@@ -315,6 +315,9 @@ def chapter(request):
 	year=now.year
 	day=now.day
 	first_friday=find_first_friday(1,month,year)
+	third_sunday=find_third_sunday(1,month,year)
+	fourth_sunday=find_fourth_sunday(1,month,year)
+	print third_sunday
 	if day<first_friday:
 		contest_code=contest_codes[month-1]+str(year%2000)
 	else:
@@ -360,6 +363,33 @@ def find_first_friday(day,month,year):
 	if date>7:
 		date-=7
 	print index,date
+	return date
+
+def find_third_sunday(day,month,year):
+	'''COOKOFF'''
+	t=[0,3,2,5,0,3,5,1,4,6,2,4]
+	year-=month<3
+	index=(year+year/4-year/100+year/400+t[month-1]+day)%7
+	date=(0-index+7+1)
+	if date>7:
+		date-=7
+	date+=14
+	print index,date
+	return date
+
+def find_fourth_sunday(day,month,year):
+	'''LTIME'''
+	t=[0,3,2,5,0,3,5,1,4,6,2,4]
+	year-=month<3
+	index=(year+year/4-year/100+year/400+t[month-1]+day)%7
+	date=(0-index+7+1)
+	if date>7:
+		date-=7
+	date+=21
+	print index,date
+	return date
+
+
 
 
 
