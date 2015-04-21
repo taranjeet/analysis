@@ -297,6 +297,9 @@ def chapter(request):
 
 	'''this views needs to be done as a url,
 	'''
+
+	contest_codes={1:"JAN",2:"FEB",3:"MARCH",4:"APRIL",5:"MAY",6:"JUNE",7:"JULY",8:"AUG",9:"SEPT",10:"OCT",11:"NOV",12:"DEC"}
+
 	if request.GET:
 		code=request.GET['code']
 		print 'get request',code
@@ -313,7 +316,11 @@ def chapter(request):
 	now=datetime.datetime.now()
 	month=now.month
 	year=now.year
-	find_first_friday(1,11,2014)
+	day=now.day
+	first_friday=find_first_friday(1,month,year)
+
+	#now if the current date is less than first_friday then dont include this month long rating, instead
+	#show him the rating for just previous month
 
 	
 	return HttpResponse('no of users of this college are %s'%(len(users)))
