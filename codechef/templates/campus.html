@@ -40,6 +40,11 @@
 					<h3>VIEW INCOMPLETE</h3>
 				</div>
 		</div>
+
+
+		{% for i in college %}
+		<a href='/user/chapter/?code={{i.code}}'>{{i.code}}</a>->{{i.name}}->{{i.date}}<br/>
+		{%endfor%}
 		</main>
 </body>
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
