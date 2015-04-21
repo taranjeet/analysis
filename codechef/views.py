@@ -330,7 +330,7 @@ def chapter(request):
 	page = driver.page_source
 	x=etree.HTML(page)
 	usernames = x.xpath("//div[@class='user-name']/@title")
-	userScores = x.xpath("//td[@class='num']/text()")
+	userScores = x.xpath("//tr[@class='ember-view']/td[3]/div/text()")
 	print usernames
 	print userScores
 	driver.close()
