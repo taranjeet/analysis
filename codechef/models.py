@@ -35,19 +35,23 @@ class User(models.Model):
     username=models.CharField(max_length=200)
     collegename=models.CharField(max_length=500)
 
-class CampusChapter(models.Model):
-    name = models.CharField(max_length = 1000)
-    code = models.CharField(max_length = 100, primary_key=True)
-    college = models.CharField(max_length = 1000)
-    avgLong = models.FloatField()
-    avgCookOff = models.FloatField()
-    avgLunchtime = models.FloatField()
-    thisAvgLong = models.FloatField()
-    thisAvgCookOff = models.FloatField()
-    thisAvglunchtime = models.FloatField()
-    createdAt = models.DateTimeField(default = False)
+# class CampusChapter(models.Model):
+#     name = models.CharField(max_length = 1000)
+#     code = models.CharField(max_length = 100, primary_key=True)
+#     college = models.CharField(max_length = 1000)
+#     avgLong = models.FloatField()
+#     avgCookOff = models.FloatField()
+#     avgLunchtime = models.FloatField()
+#     thisAvgLong = models.FloatField()
+#     thisAvgCookOff = models.FloatField()
+#     thisAvglunchtime = models.FloatField()
+#     #createdAt = models.DateTimeField(default = None)
 '''
 It may happen that the models will be changed for the tables that contain the DateTimeField
 '''
-class CrawlingStats(models.Model):
-    lastCrawledDate = models.DateTimeField()
+# class CrawlingStats(models.Model):
+#     lastCrawledDate = models.DateTimeField()
+
+
+class PageCount(models.Model):
+    sort_newest_count=models.IntegerField()

@@ -137,7 +137,25 @@ def userDetails(request):
 """
 def userList(request):
 	ii=0
-	for i in range(1,2234):
+
+	#get how many pages are there
+	user_url='http://discuss.codechef.com/users/?sort=newest'
+	page=urllib.urlopen(user_url).read()
+	x2=etree.HTML(page)
+	till_now=int(x2.xpath('//a[@class="page"]/text()')[4])
+	in_db=PageCount.objects.get().sort_newest_count
+	if in_db==0:
+		#it means that this is the first time we are running this
+		#so run the loop till 'till_now'
+		limit=till_now
+	else:
+		#run from 1 till till_now-in_db+1
+		limit=till_now-in_db+1
+
+
+
+
+	for i in range(1,limit):
 		url='http://discuss.codechef.com/users/?sort=name&page='+str(i)
 		print url
 		page=urllib.urlopen(url).read()
