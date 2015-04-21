@@ -323,7 +323,8 @@ def chapter(request):
 	else:
 		contest_code=contest_codes[month]+str(year%2000)
 
-	rankings_url='http://www.codechef.com/rankings/%s?filterBy=Institution%3DIndian%20Institute%20of%20Technology%20Roorkee&order=asc&sortBy=rank'%(contest_code)
+	rankings_url=urllib.quote_plus('http://www.codechef.com/rankings/%s?filterBy=%s&order=asc&sortBy=rank'%(contest_code,collegename))
+	print rankings_url
 	#now if the current date is less than first_friday then dont include this month long rating, instead
 	#show him the rating for just previous month
 
