@@ -20,28 +20,7 @@
 		</div>
 	</nav>
 		<main>
-		<h2>Add friends to track their progress</h2>
-		<div class="container">
-			<div class="row">
-				<div class="col s12 m6 l4 center">
-					<form action="/user/friends" method="post">
-					{% csrf_token %}
-						<input type="text" name="friends" placeholder="enter comma separated names" required>
-						<input type="submit" value="submit" >
-					</form>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col s12 m6 l4">
-					
-				</div>
-			</div>
-				<div class="col s12 m6 l8">
-					<h3>VIEW INCOMPLETE</h3>
-				</div>
-		</div>
-
-
+		<h2>Campus Chapter Analytics</h2>
 		{% for i in college %}
 		<a href='/user/chapter/?code={{i.code}}'>{{i.code}}</a>->{{i.name}}->{{i.date}}<br/>
 		{%endfor%}
