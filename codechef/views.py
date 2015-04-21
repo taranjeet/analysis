@@ -12,7 +12,7 @@ import urllib
 import scrapy
 import json
 import datetime
-
+import requests
 # Create your views here.
 """
 	View for displaying the homepage 
@@ -293,17 +293,15 @@ def campus(request):
 	return render_to_response("campus.html",{'college':col},context_instance = RequestContext(request))
 
 def chapter(request):
-
-
-	'''this views needs to be done as a url,
 	'''
-
+	this views needs to be done as a url,
+	'''
 	contest_codes={1:"JAN",2:"FEB",3:"MARCH",4:"APRIL",5:"MAY",6:"JUNE",7:"JULY",8:"AUG",9:"SEPT",10:"OCT",11:"NOV",12:"DEC"}
 
 	if request.GET:
 		code=request.GET['code']
 		print 'get request',code
-	
+		
 	c=College.objects.filter(code=code)
 	for i in c:
 		collegename=i.name
@@ -322,14 +320,15 @@ def chapter(request):
 		contest_code=contest_codes[month-1]+str(year%2000)
 	else:
 		contest_code=contest_codes[month]+str(year%2000)
-
-	rankings_url=urllib.quote_plus('http://www.codechef.com/rankings/%s?filterBy=%s&order=asc&sortBy=rank'%(contest_code,collegename))
-	print rankings_url
+	
+	filters = {'filterBy':'Institution='+str(collegename),'order':'asc','sortBy':'rank'}
+	page = requests.get("http://www.codechef.com/rankings/"+str(contest_code), params = filters)
+	print page.url
+	# rankings_url=urllib.quote_plus('www.codechef.com/rankings/%s?filterBy=%s&order=asc&sortBy=rank'%(contest_code,collegename))
 	#now if the current date is less than first_friday then dont include this month long rating, instead
 	#show him the rating for just previous month
-
-	
 	return HttpResponse('no of users of this college are %s'%(len(users)))
+
 
 
 def find_first_friday(day,month,year):
