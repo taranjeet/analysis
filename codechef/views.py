@@ -295,6 +295,38 @@ def campus(request):
 """
 this views needs to be done as a url,
 """
+
+def return_ratings_for_contest(contestcode,collegename):
+	filters = {'filterBy':'Institution='+str(collegename),'order':'asc','sortBy':'rank'}
+	serachUrl = requests.get("http://www.codechef.com/rankings/"+str(contestcode), params = filters)
+	print serachUrl.url
+
+	vdisplay = Xvfb()
+	vdisplay.start()
+	driver = webdriver.Firefox()
+	driver.get("http://www.codechef.com/rankings/APRIL15?filterBy=Institution%3DJSS%20Academy%20of%20Technical%20Education%2C%20Noida&order=asc&sortBy=rank")
+	#driver.get(serachUrl.url)
+	# se_url='http://www.codechef.com/rankings/%s?filterBy=Institution&%s&order=asc&sortBy=rank'%(contestcode,collegename)
+	# se_url=urllib.quote(se_url)
+	# print se_url	
+	# driver.get(se_url)
+	page = driver.page_source
+	x=etree.HTML(page)
+	usernames = x.xpath("//div[@class='user-name']/@title")
+	userScores = x.xpath("//tr[@class='ember-view']/td[3]/div/text()")
+	print usernames
+	#map(lambda x:float(x),userScores)
+	sum_scores=0.0
+	for i in userScores:
+		sum_scores+=float(i)
+	#sum_scores=sum(userScores)
+	print userScores
+	print sum_scores
+	driver.close()
+	vdisplay.stop()
+
+	return (usernames,userScores,sum_scores)
+
 def chapter(request):
 	contest_codes={1:"JAN",2:"FEB",3:"MARCH",4:"APRIL",5:"MAY",6:"JUNE",7:"JULY",8:"AUG",9:"SEPT",10:"OCT",11:"NOV",12:"DEC"}
 	if request.GET:
@@ -303,7 +335,7 @@ def chapter(request):
 	c=College.objects.filter(code=code)
 	for i in c:
 		collegename=i.name
-	collegename=urllib.quote(collegename)
+	#
 	print collegename
 
 	#now get all user of this college
@@ -323,32 +355,75 @@ def chapter(request):
 	else:
 		contest_code=contest_codes[month]+str(year%2000)
 	
-	filters = {'filterBy':'Institution='+str(collegename),'order':'asc','sortBy':'rank'}
-	serachUrl = requests.get("http://www.codechef.com/rankings/"+str(contest_code), params = filters)
-	print serachUrl.url
+	return_ratings_for_contest(contest_code,collegename)
 
-	vdisplay = Xvfb()
-	vdisplay.start()
-	driver = webdriver.Firefox()
-	# driver.get(page.url)
-	driver.get("http://www.codechef.com/rankings/APRIL15?filterBy=Institution%3DJSS%20Academy%20of%20Technical%20Education%2C%20Noida&order=asc&sortBy=rank")
-	page = driver.page_source
-	x=etree.HTML(page)
-	usernames = x.xpath("//div[@class='user-name']/@title")
-	userScores = x.xpath("//tr[@class='ember-view']/td[3]/div/text()")
-	print usernames
-	#map(lambda x:float(x),userScores)
-	sum_scores=0.0
-	for i in userScores:
-		sum_scores+=float(i)
-	#sum_scores=sum(userScores)
-	print userScores
-	print sum_scores
-	driver.close()
-	vdisplay.stop()
+
+	# filters = {'filterBy':'Institution='+str(collegename),'order':'asc','sortBy':'rank'}
+	# serachUrl = requests.get("http://www.codechef.com/rankings/"+str(contest_code), params = filters)
+	# print serachUrl.url
+
+	# vdisplay = Xvfb()
+	# vdisplay.start()
+	# driver = webdriver.Firefox()
+	# # driver.get(page.url)
+	# driver.get("http://www.codechef.com/rankings/APRIL15?filterBy=Institution%3DJSS%20Academy%20of%20Technical%20Education%2C%20Noida&order=asc&sortBy=rank")
+	# page = driver.page_source
+	# x=etree.HTML(page)
+	# usernames = x.xpath("//div[@class='user-name']/@title")
+	# userScores = x.xpath("//tr[@class='ember-view']/td[3]/div/text()")
+	# print usernames
+	# #map(lambda x:float(x),userScores)
+	# sum_scores=0.0
+	# for i in userScores:
+	# 	sum_scores+=float(i)
+	# #sum_scores=sum(userScores)
+	# print userScores
+	# print sum_scores
+	# driver.close()
+	# vdisplay.stop()
 	# rankings_url=urllib.quote_plus('www.codechef.com/rankings/%s?filterBy=%s&order=asc&sortBy=rank'%(contest_code,collegename))
 	#now if the current date is less than first_friday then dont include this month long rating, instead
 	#show him the rating for just previous month
+
+	'''ltime working'''
+	saved_ltime=Contest.objects.all().filter(contest='LTIME')
+	for i in saved_ltime:
+		lcode=i.code
+		lmonth=i.month
+		lyear=(i.year)%2000
+
+	lcodeno=lcode+(month-lmonth)
+
+	#check if ltime has happened or not ,else display the prevous ltime
+
+	if day<fourth_sunday:
+		#ltime has not happened
+		lcodeno-=1
+	
+	contest_code='LTIME'+str(lcodeno)
+	return_ratings_for_contest(contest_code,collegename)
+
+
+	'''cookoff working'''
+	saved_cookoff=Contest.objects.all().filter(contest='COOKOFF')
+	for i in saved_ltime:
+		ccode=i.code
+		cmonth=i.month
+		cyear=(i.year)%2000
+
+	ccodeno=ccode+(month-cmonth)
+
+	#check if ltime has happened or not ,else display the prevous ltime
+
+	if day<third_sunday:
+		#ltime has not happened
+		ccodeno-=1
+	
+	contest_code='COOK'+str(lcodeno)
+	return_ratings_for_contest(contest_code,collegename)
+
+
+
 	return HttpResponse('no of users of this college are %s'%(len(users)))
 
 

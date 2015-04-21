@@ -55,3 +55,10 @@ It may happen that the models will be changed for the tables that contain the Da
 
 class PageCount(models.Model):
     sort_newest_count=models.IntegerField()
+
+
+class Contest(models.Model):
+    contest=models.CharField(max_length=50)
+    code=models.IntegerField()
+    month=models.IntegerField()
+    year=models.IntegerField()
