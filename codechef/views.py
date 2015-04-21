@@ -281,6 +281,35 @@ def updateChapters(request):
 
 """
 Documentation here for this view
+
+this view will return the list of all college campus chapter
 """
 def campus(request):
-	return render_to_response("campus.html",context_instance = RequestContext(request))
+	c = {}
+	c.update(csrf(request))
+	col=College.objects.all()
+	return render_to_response("campus.html",{'college':col},context_instance = RequestContext(request))
+
+def chapter(request):
+
+
+	'''this views needs to be done as a url,
+	'''
+	if request.GET:
+		code=request.GET['code']
+		print 'get request',code
+	
+	c=College.objects.filter(code=code)
+	for i in c:
+		collegename=i.name
+	print collegename
+
+	#now get all user of this college
+	users=User.objects.all().filter(collegename=collegename)
+	print len(users)
+
+	
+	return HttpResponse('hello %s'%(len(users)))
+
+
+

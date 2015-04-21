@@ -12,5 +12,7 @@ urlpatterns = patterns('',
     url(r'^friends','codechef.views.addFriends',name='addFriends'),
     url(r'^getChapterList','codechef.views.getChapterList',name='getChapterList'),
     url(r'^campus','codechef.views.campus',name='campus'),
+    url(r'^chapter','codechef.views.chapter',name='chapter'),
+
 
 )
