@@ -114,6 +114,7 @@ def userDetails(request):
 	return render_to_response("userDetails.html",context_instance = RequestContext(request))
 	
 def userList(request):
+	i=0
 	for i in range(1,2234):
 		url='http://discuss.codechef.com/users/?sort=name&page='+str(i)
 		print url
@@ -136,10 +137,13 @@ def userList(request):
 
 				name=x1.xpath('//div[@class="user-name-box"]/text()')
 				name=''.join(name)
-				print user,name,collegename
 				if collegename:
-					User(name=name,username=user,collegename=collegename).save()
-				f.write(str(user.encode('utf-8'))+"\n")
+					print i
+					i+=1
+					print user,name,collegename
+					# pass
+					# User(name=name,username=user,collegename=collegename).save()
+				# f.write(str(user.encode('utf-8'))+"\n")
 
 def addFriends(request):
 	if request.POST:
