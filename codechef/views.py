@@ -318,7 +318,12 @@ def chapter(request):
 	year=now.year
 	day=now.day
 	first_friday=find_first_friday(1,month,year)
+	if day<first_friday:
+		contest_code=contest_codes[month-1]+str(year%2000)
+	else:
+		contest_code=contest_codes[month]+str(year%2000)
 
+	rankings_url='http://www.codechef.com/rankings/%s?filterBy=Institution%3DIndian%20Institute%20of%20Technology%20Roorkee&order=asc&sortBy=rank'%(contest_code)
 	#now if the current date is less than first_friday then dont include this month long rating, instead
 	#show him the rating for just previous month
 
