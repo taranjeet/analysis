@@ -162,7 +162,7 @@ def userList(request):
 		x=etree.HTML(page)
 		usernames=x.xpath("//div[@class='user']/ul/li/a/text()")
 		# print usernames
-		with open("usernames1.txt","a") as f:
+		with open("usernames.csv","a") as f:
 			for user in usernames:
 				#print user
 				user=user.strip()
@@ -183,7 +183,7 @@ def userList(request):
 					print user,name,collegename
 					# pass
 					# User(name=name,username=user,collegename=collegename).save()
-				# f.write(str(user.encode('utf-8'))+"\n")
+					f.write(str(user.encode('utf-8'))+","+str(name.encode('utf-8'))+","+str(collegename.encode('utf-8'))+"\n")
 
 """
 	View for adding friends in order to keep track of their activities 
