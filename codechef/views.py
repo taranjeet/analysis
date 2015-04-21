@@ -303,7 +303,9 @@ def chapter(request):
 	c=College.objects.filter(code=code)
 	for i in c:
 		collegename=i.name
+	collegename=urllib.quote(collegename)
 	print collegename
+
 	#now get all user of this college
 	users=User.objects.all().filter(collegename=collegename)
 	print len(users)
@@ -332,7 +334,13 @@ def chapter(request):
 	usernames = x.xpath("//div[@class='user-name']/@title")
 	userScores = x.xpath("//tr[@class='ember-view']/td[3]/div/text()")
 	print usernames
+	#map(lambda x:float(x),userScores)
+	sum_scores=0.0
+	for i in userScores:
+		sum_scores+=float(i)
+	#sum_scores=sum(userScores)
 	print userScores
+	print sum_scores
 	driver.close()
 	vdisplay.stop()
 	# rankings_url=urllib.quote_plus('www.codechef.com/rankings/%s?filterBy=%s&order=asc&sortBy=rank'%(contest_code,collegename))
