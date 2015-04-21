@@ -292,21 +292,18 @@ def campus(request):
 	col=College.objects.all()
 	return render_to_response("campus.html",{'college':col},context_instance = RequestContext(request))
 
+"""
+this views needs to be done as a url,
+"""
 def chapter(request):
-	'''
-	this views needs to be done as a url,
-	'''
 	contest_codes={1:"JAN",2:"FEB",3:"MARCH",4:"APRIL",5:"MAY",6:"JUNE",7:"JULY",8:"AUG",9:"SEPT",10:"OCT",11:"NOV",12:"DEC"}
-
 	if request.GET:
 		code=request.GET['code']
 		print 'get request',code
-		
 	c=College.objects.filter(code=code)
 	for i in c:
 		collegename=i.name
 	print collegename
-
 	#now get all user of this college
 	users=User.objects.all().filter(collegename=collegename)
 	print len(users)
@@ -322,8 +319,22 @@ def chapter(request):
 		contest_code=contest_codes[month]+str(year%2000)
 	
 	filters = {'filterBy':'Institution='+str(collegename),'order':'asc','sortBy':'rank'}
-	page = requests.get("http://www.codechef.com/rankings/"+str(contest_code), params = filters)
-	print page.url
+	serachUrl = requests.get("http://www.codechef.com/rankings/"+str(contest_code), params = filters)
+	print serachUrl.url
+
+	vdisplay = Xvfb()
+	vdisplay.start()
+	driver = webdriver.Firefox()
+	# driver.get(page.url)
+	driver.get("http://www.codechef.com/rankings/APRIL15?filterBy=Institution%3DJSS%20Academy%20of%20Technical%20Education%2C%20Noida&order=asc&sortBy=rank")
+	page = driver.page_source
+	x=etree.HTML(page)
+	usernames = x.xpath("//div[@class='user-name']/@title")
+	userScores = x.xpath("//td[@class='num']/text()")
+	print usernames
+	print userScores
+	driver.close()
+	vdisplay.stop()
 	# rankings_url=urllib.quote_plus('www.codechef.com/rankings/%s?filterBy=%s&order=asc&sortBy=rank'%(contest_code,collegename))
 	#now if the current date is less than first_friday then dont include this month long rating, instead
 	#show him the rating for just previous month
