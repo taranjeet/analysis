@@ -11,6 +11,8 @@ from lxml import etree
 import urllib
 import scrapy
 import json
+import datetime
+
 # Create your views here.
 """
 	View for displaying the homepage 
@@ -307,9 +309,26 @@ def chapter(request):
 	#now get all user of this college
 	users=User.objects.all().filter(collegename=collegename)
 	print len(users)
+	#check ranking for LONG contest here
+	now=datetime.datetime.now()
+	month=now.month
+	year=now.year
+	find_first_friday(1,11,2014)
 
 	
-	return HttpResponse('hello %s'%(len(users)))
+	return HttpResponse('no of users of this college are %s'%(len(users)))
+
+
+def find_first_friday(day,month,year):
+	'''this view will return the date of first friday for LONG challenges'''
+	#using sakamoto algorithm
+	t=[0,3,2,5,0,3,5,1,4,6,2,4]
+	year-=month<3
+	index=(year+year/4-year/100+year/400+t[month-1]+day)%7
+	date=(5-index+7+1)
+	if date>7:
+		date-=7
+	print index,date
 
 
 
