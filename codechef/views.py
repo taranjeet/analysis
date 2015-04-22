@@ -414,22 +414,22 @@ def chapter(request):
 
 
 	'''cookoff working'''
-	saved_cookoff=Contest.objects.all().filter(contest='COOKOFF')
-	for i in saved_cookoff:
-		ccode=i.code
-		cmonth=i.month
-		cyear=(i.year)%2000
+	# saved_cookoff=Contest.objects.all().filter(contest='COOKOFF')
+	# for i in saved_cookoff:
+	# 	ccode=i.code
+	# 	cmonth=i.month
+	# 	cyear=(i.year)%2000
 
-	ccodeno=ccode+(month-cmonth)
+	# ccodeno=ccode+(month-cmonth)
 
 	#check if ltime has happened or not ,else display the prevous ltime
 
-	if day<third_sunday:
-		#ltime has not happened
-		ccodeno-=1
+	# if day<third_sunday:
+	# 	#ltime has not happened
+	# 	ccodeno-=1
 	
-	contest_code='COOK'+str(ccodeno)
-	return_ratings_for_contest(contest_code,collegename)
+	# contest_code='COOK'+str(ccodeno)
+	#return_ratings_for_contest(contest_code,collegename)
 
 
 
