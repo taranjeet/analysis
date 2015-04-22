@@ -316,19 +316,33 @@ def return_ratings_for_contest(contestcode,collegename):
 	# driver.get(se_url)
 	page = driver.page_source
 	x=etree.HTML(page)
-	usernames = x.xpath("//div[@class='user-name']/@title")
-	userScores = x.xpath("//tr[@class='ember-view']/td[3]/div/text()")
+	if 'COOK' in contestcode:
+		usernames = x.xpath("//div[@class='user-name']/@title")
+		userScores=x.xpath("//td/div[@class='score']/text()")
+	else:
+		usernames = x.xpath("//div[@class='user-name']/@title")
+		userScores = x.xpath("//tr[@class='ember-view']/td[3]/div/text()")
 	print usernames
+	print userScores
 	#map(lambda x:float(x),userScores)
 	sum_scores=0.0
 	for i in userScores:
 		if '.' in i:
 			t=float(i)
+		elif '-' in i:
+			t=i[:i.find(' -')]
+			t=int(t)
 		elif i:
 			t=int(i)
 		sum_scores+=t
 	#sum_scores=sum(userScores)
-	total_score=10*len(usernames)
+	if 'LONG' in contestcode:
+		total_ques=10
+	elif 'COOK' in contestcode:
+		total_ques=5
+	else:
+		total_ques=4
+	total_score=total_ques*len(usernames)
 	print userScores
 	print sum_scores,total_score
 	driver.close()
@@ -414,22 +428,22 @@ def chapter(request):
 
 
 	'''cookoff working'''
-	# saved_cookoff=Contest.objects.all().filter(contest='COOKOFF')
-	# for i in saved_cookoff:
-	# 	ccode=i.code
-	# 	cmonth=i.month
-	# 	cyear=(i.year)%2000
+	saved_cookoff=Contest.objects.all().filter(contest='COOKOFF')
+	for i in saved_cookoff:
+		ccode=i.code
+		cmonth=i.month
+		cyear=(i.year)%2000
 
-	# ccodeno=ccode+(month-cmonth)
+	ccodeno=ccode+(month-cmonth)
 
 	#check if ltime has happened or not ,else display the prevous ltime
 
-	# if day<third_sunday:
-	# 	#ltime has not happened
-	# 	ccodeno-=1
+	if day<third_sunday:
+		#ltime has not happened
+		ccodeno-=1
 	
-	# contest_code='COOK'+str(ccodeno)
-	#return_ratings_for_contest(contest_code,collegename)
+	contest_code='COOK'+str(ccodeno)
+	return_ratings_for_contest(contest_code,collegename)
 
 
 
