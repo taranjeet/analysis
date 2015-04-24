@@ -297,31 +297,54 @@ this views needs to be done as a url,
 """
 
 def return_ratings_for_contest(contestcode,collegename):
-	filters = {'filterBy':'Institution='+str(collegename),'order':'asc','sortBy':'rank'}
-	serachUrl = requests.get("http://www.codechef.com/rankings/"+str(contestcode), params = filters)
-	print serachUrl.url
-
+	# filters = {'filterBy':'Institution='+str(collegename),'order':'asc','sortBy':'rank'}
+	# serachUrl = requests.get("http://www.codechef.com/rankings/"+str(contestcode), params = filters)
+	# print serachUrl.url
+	c='='+collegename
+	c=urllib.quote(c)
+	url= 'http://www.codechef.com/rankings/%s?filterBy=Institution%s&order=asc&sortBy=rank'%(contestcode,c)
+	rank_url=urllib.quote_plus(url,safe=':/%?=&')
+	print rank_url
 	vdisplay = Xvfb()
 	vdisplay.start()
 	driver = webdriver.Firefox()
-	driver.get("http://www.codechef.com/rankings/APRIL15?filterBy=Institution%3DJSS%20Academy%20of%20Technical%20Education%2C%20Noida&order=asc&sortBy=rank")
-	#driver.get(serachUrl.url)
+	#driver.get("http://www.codechef.com/rankings/APRIL15?filterBy=Institution%3DJSS%20Academy%20of%20Technical%20Education%2C%20Noida&order=asc&sortBy=rank")
+	driver.get(rank_url)
 	# se_url='http://www.codechef.com/rankings/%s?filterBy=Institution&%s&order=asc&sortBy=rank'%(contestcode,collegename)
 	# se_url=urllib.quote(se_url)
 	# print se_url	
 	# driver.get(se_url)
 	page = driver.page_source
 	x=etree.HTML(page)
-	usernames = x.xpath("//div[@class='user-name']/@title")
-	userScores = x.xpath("//tr[@class='ember-view']/td[3]/div/text()")
+	if 'COOK' in contestcode:
+		usernames = x.xpath("//div[@class='user-name']/@title")
+		userScores=x.xpath("//td/div[@class='score']/text()")
+	else:
+		usernames = x.xpath("//div[@class='user-name']/@title")
+		userScores = x.xpath("//tr[@class='ember-view']/td[3]/div/text()")
 	print usernames
+	print userScores
 	#map(lambda x:float(x),userScores)
 	sum_scores=0.0
 	for i in userScores:
-		sum_scores+=float(i)
+		if '.' in i:
+			t=float(i)
+		elif '-' in i:
+			t=i[:i.find(' -')]
+			t=int(t)
+		elif i:
+			t=int(i)
+		sum_scores+=t
 	#sum_scores=sum(userScores)
+	if 'LONG' in contestcode:
+		total_ques=10
+	elif 'COOK' in contestcode:
+		total_ques=5
+	else:
+		total_ques=4
+	total_score=total_ques*len(usernames)
 	print userScores
-	print sum_scores
+	print sum_scores,total_score
 	driver.close()
 	vdisplay.stop()
 
@@ -406,7 +429,7 @@ def chapter(request):
 
 	'''cookoff working'''
 	saved_cookoff=Contest.objects.all().filter(contest='COOKOFF')
-	for i in saved_ltime:
+	for i in saved_cookoff:
 		ccode=i.code
 		cmonth=i.month
 		cyear=(i.year)%2000
@@ -419,7 +442,7 @@ def chapter(request):
 		#ltime has not happened
 		ccodeno-=1
 	
-	contest_code='COOK'+str(lcodeno)
+	contest_code='COOK'+str(ccodeno)
 	return_ratings_for_contest(contest_code,collegename)
 
 
