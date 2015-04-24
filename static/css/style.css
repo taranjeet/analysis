@@ -1,0 +1,12 @@
+div#row1{
+	margin-top: 25%;
+	width: 100%;
+}
+
+a.brand-logo.center{
+	font-weight: 300;
+}
+footer{
+	position: absolute;
+	bottom:0;
+}

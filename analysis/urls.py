@@ -5,6 +5,7 @@ urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'analysis.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
+	url(r'^$', 'codechef.views.index', name='index'),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^user/', include('codechef.urls')),
+    url(r'^', include('codechef.urls')),
 )
