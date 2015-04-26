@@ -2,31 +2,40 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Codechef User Analytics</title>
+	<title>Codechef Analytics Record</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.95.3/css/materialize.min.css">
-	<link href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900" rel="stylesheet" type="text/css">
-	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
+	<link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
 	<nav>
-		<div class="nav-wrapper yellow darken-3">
+		<div class="nav-wrapper brown darken-2">
 			<a href="#" class="brand-logo center">Codechef Analytics Record (CAR)</a>
-			<ul id="nav-mobile" class="right hide-on-med-and-down">
-				<li><a href="#">Home</a></li>
-				<li><a href="#">Problem Analysis</a></li>
-				<li><a href="#">Performance Analysis</a></li>
-			</ul>
 		</div>
 	</nav>
-		<main>
-		<h2>Add friends to track their progress</h2>
+	<main>
+	<div class="row" >
+				<div class="col s12 m12 l3">
+				<a class="waves-effect waves-light btn-large brown darken-1">Campus Chapter's Progess</a>
+				</div>
+				<div class="col s12 m12 l3">
+				<a class="waves-effect waves-light btn-large brown darken-1" href="/campus">Get Chapter Updates</a>
+				</div>
+				<div class="col s12 m12 l3">
+				<a class="waves-effect waves-light btn-large brown darken-1" href="/friends">Track Progress of Friends</a>
+				</div>
+				<div class="col s12 m12 l3">
+				<a class="waves-effect waves-light btn-large brown darken-1" href="/checkprogress">Locate Yourself</a>
+				</div>
+			</div>
+				<h2>Add friends to track their progress</h2>
 		<div class="container">
 			<div class="row">
 				<div class="col s12 m6 l4 center">
 					<form action="/user/friends" method="post">
 					{% csrf_token %}
-						<input type="text" name="friends" placeholder="enter comma separated names" required>
+						<input type="text" name="friends" id="friends" required>
+						<label for="friends">Enter Comma Separated names</label>
 						<input type="submit" value="submit" >
 					</form>
 				</div>
@@ -41,9 +50,17 @@
 					<p>{{ i }}</p>
 					{% endfor %}
 				</div>
-		</div>
-		</main>
+		</div>		
+		<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.95.3/js/materialize.min.js"></script>
+		<footer class="page-footer brown darken-3">
+		  <div class="footer-copyright">
+		    <div class="container">
+		    © 2015 Copyright 
+		    <a class="grey-text text-lighten-4 right" href="#">About Us</a>
+		    </div>
+		  </div>
+	    </footer>    
+	</main>
 </body>
-<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.95.3/js/materialize.min.js"></script>
 </html>
