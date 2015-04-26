@@ -115,17 +115,23 @@ def userDetails(request):
 		problems=x.xpath("//tr/td/p/span/a/text()")
 		for problem in problems:
 			if Easy.objects.filter(code=str(problem)).count()==1:
+				print "easy"
 				u['easy']+=1
 			elif Medium.objects.filter(code=problem).count()==1:
 				u['medium']+=1
+				print "medium"
 			elif Hard.objects.filter(code = problem).count()==1:
 				u['hard']+=1
+				print "hard"
 			elif Peer.objects.filter(code = problem).count()==1:
 				u['peer']+=1
+				print "peer"
 			elif School.objects.filter(code = problem).count()==1:
 				u['school']+=1
+				print "school"
 			elif Challenge.objects.filter(code = problem).count()==1:
 				u['challenge']+=1
+				print "challenge"
 		u['other'] = len(problems)-u['easy']-u['medium']-u['hard']-u['challenge']-u['peer']-u['school']
 		u = json.dumps(u, ensure_ascii=False)
 		print u
@@ -487,7 +493,44 @@ def find_fourth_sunday(day,month,year):
 	print index,date
 	return date
 
+"""
+	Method for fetching the problems and the problem code that
+	is present in the codechef repository 
+"""
 
-
-
-
+def updateProblems(request):
+	Easy.objects.all().delete()
+	Medium.objects.all().delete()
+	Hard.objects.all().delete()
+	Challenge.objects.all().delete()
+	Peer.objects.all().delete()
+	School.objects.all().delete()
+	categories=["easy","medium","hard","challenge","extcontest","school"]
+	for i in categories:
+		url='http://www.codechef.com/problems/%s' % (i)
+		page=urllib.urlopen(url).read()
+		print url
+		x=etree.HTML(page)
+		problemCode = x.xpath('//a[@title="Submit a solution to this problem."]/text()')
+		problemName = x.xpath('//div[@class="problemname"]/a/b/text()')
+		print problemName 
+		for j in range (0,len(problemCode)):
+			if i=="easy":
+				Easy.objects.create(name=problemName[j],code=problemCode[j]).save()
+				print problemName[j]," : ",problemCode[j]
+			elif i=="medium":
+				Medium.objects.create(name=problemName[j],code=problemCode[j]).save()
+				print problemName[j]," : ",problemCode[j]
+			elif i=="hard":
+				Hard.objects.create(name=problemName[j],code=problemCode[j]).save()
+				print problemName[j]," : ",problemCode[j]
+			elif i=="challenge":
+				Challenge.objects.create(name=problemName[j],code=problemCode[j]).save()
+				print problemName[j]," : ",problemCode[j]
+			elif i=="extcontest":
+				Peer.objects.create(name=problemName[j],code=problemCode[j]).save()
+				print problemName[j]," : ",problemCode[j]
+			elif i=="school":
+				School.objects.create(name=problemName[j],code=problemCode[j]).save()
+				print problemName[j]," : ",problemCode[j]
+	return render_to_response("user.html",{"p":problemName},context_instance=RequestContext(request))

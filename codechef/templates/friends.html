@@ -32,7 +32,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col s12 m6 l4 center">
-					<form action="/user/friends" method="post">
+					<form action="/friends" method="post">
 					{% csrf_token %}
 						<input type="text" name="friends" id="friends" required>
 						<label for="friends">Enter Comma Separated names</label>
