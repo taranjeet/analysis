@@ -133,7 +133,7 @@ def userDetails(request):
 				u['challenge']+=1
 				print "challenge"
 		u['other'] = len(problems)-u['easy']-u['medium']-u['hard']-u['challenge']-u['peer']-u['school']
-		u = json.dumps(u, ensure_ascii=False)
+		#u = json.dumps(u, ensure_ascii=False)
 		print u
 		return render_to_response("userDetails.html",{'u':u,'profile_pic':profile_pic},context_instance= RequestContext(request))
 		# return HttpResponse("EASY "+str(easy)+"\n Medium  "+str(medium)+"\n Hard  "+str(hard))
@@ -258,7 +258,7 @@ def fetchUserDetails(friend):
 		elif Challenge.objects.filter(code = problem).count()==1:
 			u['challenge']+=1
 	u['other'] = len(problems)-u['easy']-u['medium']-u['hard']-u['challenge']-u['peer']-u['school']
-	u = json.dumps(u, ensure_ascii=False)
+	#u = json.dumps(u, ensure_ascii=False)
 	return u
 
 """

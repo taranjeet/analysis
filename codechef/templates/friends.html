@@ -47,7 +47,11 @@
 			</div>
 				<div class="col s12 m6 l8">
 					{% for i in data %}
-					<p>{{ i }}</p>
+					<p>{% for j,k in i.items %}
+						{{j}}-{{k}}
+						{%endfor%}
+					</p>
+
 					{% endfor %}
 				</div>
 		</div>		
