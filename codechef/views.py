@@ -441,6 +441,7 @@ def chapter(request):
 		cyear=(i.year)%2000
 
 	ccodeno=ccode+(month-cmonth)
+	print ccodeno
 
 	#check if ltime has happened or not ,else display the prevous ltime
 
