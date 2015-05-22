@@ -31,7 +31,7 @@
 	</div>
 		<h2>Campus Chapter Analytics</h2>
 		{% for i in college %}
-		<a href='/user/chapter/?code={{i.code}}'>{{i.code}}</a>->{{i.name}}->{{i.date}}<br/>
+		<a href='/chapter?code={{i.code}}'>{{i.code}}</a>->{{i.name}}->{{i.date}}<br/>
 		{%endfor%}
 		<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.95.3/js/materialize.min.js"></script>
